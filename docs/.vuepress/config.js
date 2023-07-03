@@ -12,6 +12,13 @@ module.exports = {
             '/hack/unity-Il2cpp',
           ]
         },
+        {
+          title: 'js相关内容',
+          collapsable: false,
+          children: [
+            '/js/utils',
+          ]
+        },
         ['/about', '关于此博客']
       ],
     }
