@@ -10,6 +10,7 @@ module.exports = {
           children: [
             '/hack/frida',
             '/hack/unity-Il2cpp',
+            '/hack/android-inject',
           ]
         },
         {
