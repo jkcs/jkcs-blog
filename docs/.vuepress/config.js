@@ -1,4 +1,5 @@
 module.exports = {
+  base: '/jksc-blog',
   title: 'jkcs 随记',
   themeConfig: {
     lastUpdated: 'Last Updated', // string | boolean
