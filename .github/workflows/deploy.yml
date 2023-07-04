@@ -24,6 +24,6 @@ jobs:
       - name: Deploy jkcs.github.io
         uses: peaceiris/actions-gh-pages@v2.5.0
         env:
-          ACTIONS_DEPLOY_KEY: ${{secrets.key}}
+          ACTIONS_DEPLOY_KEY: ${{secrets.ACCESS_KEY}}
           PUBLISH_BRANCH: gh-pages
           PUBLISH_DIR: docs/.vuepress/dist
