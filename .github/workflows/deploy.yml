@@ -19,6 +19,10 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+      
+      # 生成静态文件
+      - name: Build
+        run: npm install && npm run docs:build
 
       # Runs a single command using the runners shell
       - name: Deploy jkcs.github.io
