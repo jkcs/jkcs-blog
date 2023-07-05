@@ -34,8 +34,8 @@ DummyDll内是还原出来的DLL文件，可以使用dnSpy打开，但是只能�
 ## 5. 使用IDA分析libil2cpp.so
 + 将`libil2cpp.so`文件拖入IDA中，等待分析完成（左下角地址码不跳）。
 + 将上面步骤生成的定义加载到IDA中，`File->Script file`，选择`ida_with_struct_py3.py`脚本。
-![ida_script_file.png](images/ida_script_file.png)
-![ida_script_file.png](images/ida_script_file_i2cpp_py.png)
+![ida_script_file.png](./images/ida_script_file.png)
+![ida_script_file.png](./images/ida_script_file_i2cpp_py.png)
 + 之后依次选择`script.json`、`il2cpp.h`文件，等待加载完成。
 + 可以看到IDA中的伪代码有结构定义了。
 + 打开`dump.cs`根据`Offset: 0x000`地址在ida中找到对应的函数，分析逻辑。
@@ -51,8 +51,8 @@ DummyDll内是还原出来的DLL文件，可以使用dnSpy打开，但是只能�
 首先我们进入解压的apk内，在lib文件夹下，寻找关键词`lua`，例如`libluajit.so`、`libtolua.so`、`libxlua.so`如果看到这些so则大致可以判断游戏内存在`lua`脚本。
 游戏厂商为了游戏能实现热更新效果，不用每次更新版本都需要重新安装apk，都会将一部分逻辑放在lua脚本。
 找到so后，我们需要将so拖到IDA中进行分析，我们直接看导出表。
-![ida_export.png](images/ida_export.png)
-![ida_lua_so_export.png](images/ida_lua_so_export.png)
+![ida_export.png](./images/ida_export.png)
+![ida_lua_so_export.png](./images/ida_lua_so_export.png)
 可以看到有`luaL_loadbuffer`、`luaL_loadbufferx`、`luaL_loadfile`、`luaL_loadstring`等函数，这些函数都是lua脚本加载函数，这些函数都非常关键下面会提到。
 ## 7. dump出lua脚本
 分析该so文件，根据分析所有的lua文件加载都会经过`luaL_loadbufferx`函数，所以我们只需要hook这个函数，就可以dump出所有的lua脚本。
