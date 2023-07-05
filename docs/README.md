@@ -1,3 +1,3 @@
 # jkcs Bolg
 
-随心记
+website: https://jkcs.github.io/jkcs-blog/
