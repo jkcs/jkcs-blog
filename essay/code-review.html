@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>议code review | jkcs 随记</title>
+    <meta name="generator" content="VuePress 1.9.9">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/jkcs-blog/assets/css/0.styles.ffa3548c.css" as="style"><link rel="preload" href="/jkcs-blog/assets/js/app.8b862edb.js" as="script"><link rel="preload" href="/jkcs-blog/assets/js/2.15dacd45.js" as="script"><link rel="preload" href="/jkcs-blog/assets/js/10.1fa60575.js" as="script"><link rel="prefetch" href="/jkcs-blog/assets/js/11.b9b812b8.js"><link rel="prefetch" href="/jkcs-blog/assets/js/12.9daae80c.js"><link rel="prefetch" href="/jkcs-blog/assets/js/13.fd5e9907.js"><link rel="prefetch" href="/jkcs-blog/assets/js/14.5fd33609.js"><link rel="prefetch" href="/jkcs-blog/assets/js/3.6ea155a5.js"><link rel="prefetch" href="/jkcs-blog/assets/js/4.3f1320f4.js"><link rel="prefetch" href="/jkcs-blog/assets/js/5.66d20a85.js"><link rel="prefetch" href="/jkcs-blog/assets/js/6.3a5da5f7.js"><link rel="prefetch" href="/jkcs-blog/assets/js/7.46265447.js"><link rel="prefetch" href="/jkcs-blog/assets/js/8.7847c152.js"><link rel="prefetch" href="/jkcs-blog/assets/js/9.94f9ca7f.js">
+    <link rel="stylesheet" href="/jkcs-blog/assets/css/0.styles.ffa3548c.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/jkcs-blog/" class="home-link router-link-active"><!----> <span class="site-name">jkcs 随记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>逆向与破解</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/jkcs-blog/hack/frida.html" class="sidebar-link">frida介绍和基本使用</a></li><li><a href="/jkcs-blog/hack/unity-Il2cpp.html" class="sidebar-link">unity-I2cpp逆向</a></li><li><a href="/jkcs-blog/hack/android-inject.html" class="sidebar-link">Android 注入的三种注入方式</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>js相关内容</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/jkcs-blog/js/utils.html" class="sidebar-link">一些好用的js代码</a></li></ul></section></li><li><a href="/jkcs-blog/about.html" class="sidebar-link">关于此博客</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="议code-review"><a href="#议code-review" class="header-anchor">#</a> 议code review</h1> <p>为什么想写这个，起因是在最近开发中发现我们的code review存在一些问题，
+code review都比较随意，比如1个故事点的code review在时间紧张的情况下可能就只花费了1个小时，而期间只是对代码的风格进行了检查。
+甚至有些bug，也是在code review中是能够被发现的。
+因此我觉得需要定义一些code review的目标。如果最后能总结出code review的流程就更好了。</p> <h2 id="_1-什么是code-review"><a href="#_1-什么是code-review" class="header-anchor">#</a> 1. 什么是code review</h2> <p>简单来说就是重新审视代码，找出其中的问题。一般自己写的代码都是由其他成员来进行code review。</p> <h2 id="_2-为什么要code-review"><a href="#_2-为什么要code-review" class="header-anchor">#</a> 2. 为什么要code review</h2> <p>这个简单来说就是为了提高代码质量，保证风格利于后期维护和减少bug。</p> <h2 id="_3-code-review的目标"><a href="#_3-code-review的目标" class="header-anchor">#</a> 3. code review的目标</h2> <p>从目标反推要去做什么，这样在做的时候至少会有一个方向。</p> <h3 id="保证代码质量"><a href="#保证代码质量" class="header-anchor">#</a> 保证代码质量</h3> <p>保证代码质量这个太笼统了，质量如何是很难衡量的，所以可以更具体一些。从编码本身的角度来说，我们写的逻辑代码都是判断、循环、函数、变量等等。
+从这些方面来看可以拆分出以下内容：</p> <ul><li>判断的问题：多余、遗漏、无价值？</li> <li>循环的问题：死循环、循环条件、循环副作用、无意义循环？</li> <li>函数的问题：参数副作用、返回值类型不一、参数默认值？</li> <li>变量的问题：重复、作用域、无意义赋值、深浅拷贝？</li> <li>重复代码、无用代码、无意义代码、代码冗余</li> <li>毫无关联和意义的注释
+从视图层面来说code review一般不关注，因为标签和Css只通过代码是很难看出具体问题，在后面在减少bug内会提到一些。</li></ul> <h3 id="保证代码风格统一"><a href="#保证代码风格统一" class="header-anchor">#</a> 保证代码风格统一</h3> <p>eslint可以帮助我们解决这个问题，然而现有项目有一些并没有开启eslint，有些没有配置eslint，这里面有很多历史原因就不展开了。
+最终我们的工程其实大部分是没有eslint的。</p> <p>这点值得考虑，本文内就不展开了。
+最终我们也是通过code review来保证一定的代码风格统一。</p> <h3 id="减少bug"><a href="#减少bug" class="header-anchor">#</a> 减少bug</h3> <p>这个是最终目标，也是最难的。因为bug的产生是多方面的，后面bug的产生原因分析内会详细展开。</p> <ul><li>代码逻辑
+<ul><li>可以看<code>useEffect</code>它的依赖项是否正确，是否在某些情况下导致出异常情况。</li> <li>可以关注代码的执行顺序，在某些情况下是否会出现崩溃的情况。</li> <li>可以看取值的时候是否会出现<code>undefined</code>的情况。</li> <li>可以着重关注<code>setTimeout</code>、<code>setInterval</code>、<code>requestAnimationFrame</code>等等定时器的使用是否正确。</li> <li>可以关注<code>lister</code>是否有释放，一直监听是否会有异常。</li></ul></li> <li>边界
+<ul><li>可以关注<code>undefined</code>、<code>null</code>、<code>NaN</code>、<code>0</code>、<code>''</code>、<code>false</code>的处理。</li> <li>可以关注文本的超长、全英文字符换行的情况。</li> <li>可以关注类型方面的处理（与后端接口交互时要注意）。</li> <li>可以关注兼容性问题（浏览器、手机、系统等等）。</li> <li>可以关注异常处理。</li></ul></li> <li>变量/函数/组件
+<ul><li>可以关注关联的另一方是否有正确的处理（A、B公用了C,更改了C需要确认A、B的表现都正常）。</li> <li>可以关注相关的作用域。</li> <li>可以关注使用是否正确。</li> <li>可以关注类型是否转来转去。（一会是字符串、一会是数字、一会是对象、一会是数组）</li></ul></li> <li>用户体验（偏主观）
+<ul><li>关注交互一致性。（比如所有的复制按钮复制完之后都有提示，而这个没有）</li> <li>界面一致性。（比如所有的input框都有placeholder，这个没有）</li></ul></li></ul> <h2 id="_4-总结"><a href="#_4-总结" class="header-anchor">#</a> 4. 总结</h2> <p>什么是code review，简单来说就是重新审视代码。做code review有没有必要，有必要，可以利于代码的后期维护和一定程度减少bug。
+code review的目标是什么，保证代码质量、保证代码风格统一、减少bug。
+如何保证代码质量，可以从判断、循环、函数、变量、注释等几个方面来保证。
+保证代码风格统一，可以通过eslint来保证。
+其中我们着重分析了减少bug的一些方面，从代码逻辑、边界、变量/函数/组件、用户体验等方面来看，都有可以避免的bug。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">7/26/2023, 9:34:15 AM</span></div></footer> <!----> </main></div><div class="global-ui"></div></div>
+    <script src="/jkcs-blog/assets/js/app.8b862edb.js" defer></script><script src="/jkcs-blog/assets/js/2.15dacd45.js" defer></script><script src="/jkcs-blog/assets/js/10.1fa60575.js" defer></script>
+  </body>
+</html>
