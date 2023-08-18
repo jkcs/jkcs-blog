@@ -27,6 +27,7 @@ module.exports = {
           collapsable: false,
           children: [
             '/js/utils',
+            '/js/react-to-print',
           ]
         },
         ['/about', '关于此博客']
