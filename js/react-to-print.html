@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>打印分页处理（react-to-print） | jkcs 随记</title>
+    <meta name="generator" content="VuePress 1.9.9">
+    
+    <meta name="description" content="">
+    
+    <link rel="preload" href="/jkcs-blog/assets/css/0.styles.ffa3548c.css" as="style"><link rel="preload" href="/jkcs-blog/assets/js/app.ee031cb1.js" as="script"><link rel="preload" href="/jkcs-blog/assets/js/2.15dacd45.js" as="script"><link rel="preload" href="/jkcs-blog/assets/js/14.25db5a46.js" as="script"><link rel="prefetch" href="/jkcs-blog/assets/js/10.8a1f71f0.js"><link rel="prefetch" href="/jkcs-blog/assets/js/11.b9b812b8.js"><link rel="prefetch" href="/jkcs-blog/assets/js/12.9daae80c.js"><link rel="prefetch" href="/jkcs-blog/assets/js/13.fd5e9907.js"><link rel="prefetch" href="/jkcs-blog/assets/js/15.6504401e.js"><link rel="prefetch" href="/jkcs-blog/assets/js/3.6ea155a5.js"><link rel="prefetch" href="/jkcs-blog/assets/js/4.1fd738d5.js"><link rel="prefetch" href="/jkcs-blog/assets/js/5.66d20a85.js"><link rel="prefetch" href="/jkcs-blog/assets/js/6.3a5da5f7.js"><link rel="prefetch" href="/jkcs-blog/assets/js/7.46265447.js"><link rel="prefetch" href="/jkcs-blog/assets/js/8.7847c152.js"><link rel="prefetch" href="/jkcs-blog/assets/js/9.94f9ca7f.js">
+    <link rel="stylesheet" href="/jkcs-blog/assets/css/0.styles.ffa3548c.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/jkcs-blog/" class="home-link router-link-active"><!----> <span class="site-name">jkcs 随记</span></a> <div class="links"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <aside class="sidebar"><!---->  <ul class="sidebar-links"><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>随记</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/jkcs-blog/essay/code-review.html" class="sidebar-link">议code review</a></li><li><a href="/jkcs-blog/essay/reflections-on-reverse.html" class="sidebar-link">对逆向工作的一些想法</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading"><span>逆向与破解</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/jkcs-blog/hack/frida.html" class="sidebar-link">frida介绍和基本使用</a></li><li><a href="/jkcs-blog/hack/unity-Il2cpp.html" class="sidebar-link">unity-I2cpp逆向</a></li><li><a href="/jkcs-blog/hack/android-inject.html" class="sidebar-link">Android 注入的三种注入方式</a></li></ul></section></li><li><section class="sidebar-group depth-0"><p class="sidebar-heading open"><span>js相关内容</span> <!----></p> <ul class="sidebar-links sidebar-group-items"><li><a href="/jkcs-blog/js/utils.html" class="sidebar-link">一些好用的js代码</a></li><li><a href="/jkcs-blog/js/react-to-print.html" aria-current="page" class="active sidebar-link">打印分页处理（react-to-print）</a><ul class="sidebar-sub-headers"><li class="sidebar-sub-header"><a href="/jkcs-blog/js/react-to-print.html#前言" class="sidebar-link">前言</a></li><li class="sidebar-sub-header"><a href="/jkcs-blog/js/react-to-print.html#打印内容有固定表头和分页划分" class="sidebar-link">打印内容有固定表头和分页划分</a></li><li class="sidebar-sub-header"><a href="/jkcs-blog/js/react-to-print.html#打印不展示网址" class="sidebar-link">打印不展示网址</a></li><li class="sidebar-sub-header"><a href="/jkcs-blog/js/react-to-print.html#缺点" class="sidebar-link">缺点</a></li><li class="sidebar-sub-header"><a href="/jkcs-blog/js/react-to-print.html#总结" class="sidebar-link">总结</a></li></ul></li></ul></section></li><li><a href="/jkcs-blog/about.html" class="sidebar-link">关于此博客</a></li></ul> </aside> <main class="page"> <div class="theme-default-content content__default"><h1 id="打印分页处理-react-to-print"><a href="#打印分页处理-react-to-print" class="header-anchor">#</a> 打印分页处理（react-to-print）</h1> <h2 id="前言"><a href="#前言" class="header-anchor">#</a> 前言</h2> <p>在最近一次需求中，遇到一个打印需求。需求内容大概为：打印内容有固定表头、打印需要分页展示、打印不展示浏览器的网址信息。
+刚好项目中已经引入了<code>react-to-print</code>，所以就使用了这个库来实现打印功能。
+页面元素大概如下：</p> <div class="language-html extra-class"><pre class="language-html"><code><span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>PrintBox</span><span class="token punctuation">&gt;</span></span>
+    <span class="token tag"><span class="token tag"><span class="token punctuation">&lt;</span>div</span><span class="token punctuation">&gt;</span></span>打印内容<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>div</span><span class="token punctuation">&gt;</span></span>
+    ...打印内容
+<span class="token tag"><span class="token tag"><span class="token punctuation">&lt;/</span>PrintBox</span><span class="token punctuation">&gt;</span></span>
+</code></pre></div><h2 id="打印内容有固定表头和分页划分"><a href="#打印内容有固定表头和分页划分" class="header-anchor">#</a> 打印内容有固定表头和分页划分</h2> <h3 id="_1-定义纸张对应的像素大小-算法如下"><a href="#_1-定义纸张对应的像素大小-算法如下" class="header-anchor">#</a> 1. 定义纸张对应的像素大小，算法如下：</h3> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token keyword">export</span> <span class="token keyword">const</span> <span class="token function-variable function">usePrintConfig</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token comment">// A4 纸张尺寸为 210mm * 297mm</span>
+  <span class="token comment">// 1英寸 约等于 25.4mm</span>
+  <span class="token comment">// 假设屏幕分辨率为 96dpi，宽度（像素）= 210毫米 × 96dpi ÷ 25.4。</span>
+  <span class="token comment">// 这个R就是像素密度</span>
+  <span class="token keyword">const</span> <span class="token constant">R</span> <span class="token operator">=</span> <span class="token number">96</span> <span class="token operator">/</span> <span class="token number">25.4</span><span class="token punctuation">;</span>
+  <span class="token comment">// A4 纸张宽高比</span>
+  <span class="token keyword">const</span> <span class="token constant">WR</span> <span class="token operator">=</span> <span class="token number">210</span> <span class="token operator">/</span> <span class="token number">297</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">const</span> width <span class="token operator">=</span> <span class="token number">210</span> <span class="token operator">*</span> <span class="token constant">R</span> <span class="token operator">+</span> <span class="token number">100</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> height <span class="token operator">=</span> <span class="token number">297</span> <span class="token operator">*</span> <span class="token constant">R</span> <span class="token operator">+</span> <span class="token number">100</span> <span class="token operator">/</span> <span class="token constant">WR</span><span class="token punctuation">;</span>
+  <span class="token comment">// 左右间隔 mm -&gt; px，这里设置左右间隔为 20mm</span>
+  <span class="token keyword">const</span> paddingLR <span class="token operator">=</span> <span class="token constant">R</span> <span class="token operator">*</span> <span class="token number">20</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">{</span> width<span class="token punctuation">,</span> height<span class="token punctuation">,</span> paddingLR<span class="token punctuation">,</span> <span class="token constant">R</span><span class="token punctuation">,</span> <span class="token constant">WR</span> <span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="_2-按高度成多个页面"><a href="#_2-按高度成多个页面" class="header-anchor">#</a> 2. 按高度成多个页面</h3> <p><code>PrintBox</code>自动划分<code>children</code>的实现：</p> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// usePrintPages的实现</span>
+<span class="token keyword">const</span> <span class="token function-variable function">usePrintPages</span> <span class="token operator">=</span> <span class="token keyword">function</span> <span class="token punctuation">(</span><span class="token parameter">children</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+  <span class="token comment">// fake内容的ref，用于计算分页高度</span>
+  <span class="token keyword">const</span> innerRef <span class="token operator">=</span> <span class="token function">useRef</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// 表头ref，用于获取固定头部的高度</span>
+  <span class="token keyword">const</span> headerRef <span class="token operator">=</span> <span class="token function">useRef</span><span class="token punctuation">(</span><span class="token keyword">null</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// 拆分成多少个页面</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>printPages<span class="token punctuation">,</span> setPrintPages<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">useState</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token comment">// 打印配置的页面高度（像素）</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> height <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">usePrintConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// 计算内容分几页展示</span>
+  <span class="token keyword">const</span> calcPrintPages <span class="token operator">=</span> <span class="token function">useCallback</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token comment">// 获取内容dom</span>
+    <span class="token keyword">const</span> dom <span class="token operator">=</span> innerRef<span class="token punctuation">.</span>current<span class="token punctuation">;</span>
+    <span class="token keyword">const</span> headerDom <span class="token operator">=</span> headerRef<span class="token punctuation">.</span>current<span class="token punctuation">;</span>
+    <span class="token comment">// 获取固定头部的高度</span>
+    <span class="token keyword">const</span> headerHeight <span class="token operator">=</span> headerDom <span class="token operator">?</span> headerDom<span class="token punctuation">.</span>offsetHeight <span class="token operator">:</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    <span class="token comment">// 可放下的内容高度</span>
+    <span class="token keyword">const</span> contentHeight <span class="token operator">=</span> height <span class="token operator">-</span> headerHeight <span class="token operator">-</span> <span class="token number">50</span><span class="token punctuation">;</span>
+    <span class="token comment">// 分页内容</span>
+    <span class="token keyword">const</span> pages <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>dom<span class="token punctuation">)</span> <span class="token keyword">return</span> pages<span class="token punctuation">;</span>
+    <span class="token comment">// 克隆节点</span>
+    <span class="token keyword">const</span> <span class="token function-variable function">cloneNode</span> <span class="token operator">=</span> <span class="token punctuation">(</span><span class="token parameter">start<span class="token punctuation">,</span> end</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> result <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">let</span> i <span class="token operator">=</span> start<span class="token punctuation">;</span> i <span class="token operator">&lt;</span> end<span class="token punctuation">;</span> i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        result<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>dom<span class="token punctuation">.</span>childNodes<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">cloneNode</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+      <span class="token keyword">return</span> result<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token punctuation">;</span>
+    <span class="token comment">// 计算分页高度</span>
+    <span class="token keyword">let</span> nextEnd <span class="token operator">=</span> <span class="token number">0</span><span class="token punctuation">;</span>
+    dom<span class="token punctuation">.</span>childNodes<span class="token punctuation">.</span><span class="token function">forEach</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">node<span class="token punctuation">,</span> index</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+      <span class="token keyword">const</span> preNode <span class="token operator">=</span> dom<span class="token punctuation">.</span>childNodes<span class="token punctuation">[</span>index <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+      <span class="token keyword">const</span> nodeTop <span class="token operator">=</span> preNode
+        <span class="token operator">?</span> <span class="token function">Number</span><span class="token punctuation">(</span>preNode<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>top <span class="token operator">||</span> <span class="token number">0</span><span class="token punctuation">)</span> <span class="token operator">+</span> node<span class="token punctuation">.</span>offsetHeight
+        <span class="token operator">:</span> node<span class="token punctuation">.</span>offsetHeight<span class="token punctuation">;</span>
+      <span class="token comment">// 记录节点的高度</span>
+      node<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>top <span class="token operator">=</span> nodeTop<span class="token punctuation">.</span><span class="token function">toString</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+      <span class="token comment">// 如果节点高度超过可放下的内容高度，则分页</span>
+      <span class="token keyword">if</span> <span class="token punctuation">(</span>nodeTop <span class="token operator">&gt;</span> contentHeight<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        node<span class="token punctuation">.</span>dataset<span class="token punctuation">.</span>top <span class="token operator">=</span> node<span class="token punctuation">.</span>offsetHeight<span class="token punctuation">;</span>
+        pages<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token function">cloneNode</span><span class="token punctuation">(</span>nextEnd<span class="token punctuation">,</span> index<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        nextEnd <span class="token operator">=</span> index<span class="token punctuation">;</span>
+      <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// 如果最后一个节点没有超过可放下的内容高度，则分页</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>nextEnd <span class="token operator">!==</span> dom<span class="token punctuation">.</span>childNodes<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      pages<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token function">cloneNode</span><span class="token punctuation">(</span>nextEnd<span class="token punctuation">,</span> dom<span class="token punctuation">.</span>childNodes<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment">// 如果没有分页，则克隆所有节点</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">!</span>pages<span class="token punctuation">.</span>length<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+      pages<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span><span class="token function">cloneNode</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span> dom<span class="token punctuation">.</span>childNodes<span class="token punctuation">.</span>length<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> pages<span class="token punctuation">;</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>height<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token function">useEffect</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+    <span class="token function">setPrintPages</span><span class="token punctuation">(</span><span class="token function">calcPrintPages</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment">// eslint-disable-next-line react-hooks/exhaustive-deps</span>
+  <span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">[</span>calcPrintPages<span class="token punctuation">,</span> children<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token keyword">return</span> <span class="token punctuation">[</span>innerRef<span class="token punctuation">,</span> headerRef<span class="token punctuation">,</span> printPages<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+</code></pre></div><h3 id="_3-打印内容分页展示呈现"><a href="#_3-打印内容分页展示呈现" class="header-anchor">#</a> 3. 打印内容分页展示呈现</h3> <div class="language-javascript extra-class"><pre class="language-javascript"><code><span class="token comment">// PrintBox 的实现</span>
+<span class="token keyword">const</span> PrintBox <span class="token operator">=</span> <span class="token function">forwardRef</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">props<span class="token punctuation">,</span> ref</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">{</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> children<span class="token punctuation">,</span> headerProps <span class="token punctuation">}</span> <span class="token operator">=</span> props<span class="token punctuation">;</span>
+  <span class="token comment">// 获取打印内容的ref，用于计算分页高度</span>
+  <span class="token keyword">const</span> <span class="token punctuation">[</span>innerRef<span class="token punctuation">,</span> headerRef<span class="token punctuation">,</span> printPages<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token function">usePrintPages</span><span class="token punctuation">(</span>children<span class="token punctuation">)</span><span class="token punctuation">;</span>
+  <span class="token keyword">const</span> <span class="token punctuation">{</span> width<span class="token punctuation">,</span> paddingLR <span class="token punctuation">}</span> <span class="token operator">=</span> <span class="token function">usePrintConfig</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+
+  <span class="token comment">// fakeContainer 样式为：position: fixed; visibility: hidden; left: -100%; top: -9999px; z-index: -9999;</span>
+  <span class="token keyword">return</span> <span class="token punctuation">(</span>
+    <span class="token operator">&lt;</span><span class="token operator">&gt;</span>
+      <span class="token punctuation">{</span><span class="token comment">/* 用于计算固定头部的高度 */</span><span class="token punctuation">}</span>
+      <span class="token operator">&lt;</span>div
+        ref<span class="token operator">=</span><span class="token punctuation">{</span>headerRef<span class="token punctuation">}</span>
+        style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> width<span class="token punctuation">,</span> <span class="token literal-property property">padding</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">0 </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>paddingLR<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">px</span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+        className<span class="token operator">=</span><span class="token punctuation">{</span>styles<span class="token punctuation">.</span>fakeContainer<span class="token punctuation">}</span>
+      <span class="token operator">&gt;</span>
+        <span class="token operator">&lt;</span>Header <span class="token punctuation">{</span><span class="token operator">...</span>headerProps<span class="token punctuation">}</span> <span class="token operator">/</span><span class="token operator">&gt;</span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+      <span class="token punctuation">{</span><span class="token comment">/* 用于计算分页高度 */</span><span class="token punctuation">}</span>
+      <span class="token operator">&lt;</span>div
+        ref<span class="token operator">=</span><span class="token punctuation">{</span>innerRef<span class="token punctuation">}</span>
+        style<span class="token operator">=</span><span class="token punctuation">{</span><span class="token punctuation">{</span> width<span class="token punctuation">,</span> <span class="token literal-property property">padding</span><span class="token operator">:</span> <span class="token template-string"><span class="token template-punctuation string">`</span><span class="token string">0 </span><span class="token interpolation"><span class="token interpolation-punctuation punctuation">${</span>paddingLR<span class="token interpolation-punctuation punctuation">}</span></span><span class="token string">px</span><span class="token template-punctuation string">`</span></span> <span class="token punctuation">}</span><span class="token punctuation">}</span>
+        className<span class="token operator">=</span><span class="token punctuation">{</span>styles<span class="token punctuation">.</span>fakeContainer<span class="token punctuation">}</span>
+      <span class="token operator">&gt;</span>
+        <span class="token punctuation">{</span>children<span class="token punctuation">}</span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+      <span class="token punctuation">{</span><span class="token comment">/* 实际打印内容 */</span><span class="token punctuation">}</span>
+      <span class="token operator">&lt;</span>div className<span class="token operator">=</span><span class="token punctuation">{</span>styles<span class="token punctuation">.</span>printBox<span class="token punctuation">}</span> ref<span class="token operator">=</span><span class="token punctuation">{</span>ref<span class="token punctuation">}</span><span class="token operator">&gt;</span>
+        <span class="token punctuation">{</span>printPages<span class="token punctuation">.</span><span class="token function">map</span><span class="token punctuation">(</span><span class="token punctuation">(</span><span class="token parameter">page<span class="token punctuation">,</span> index</span><span class="token punctuation">)</span> <span class="token operator">=&gt;</span> <span class="token punctuation">(</span>
+          <span class="token operator">&lt;</span>Page
+            key<span class="token operator">=</span><span class="token punctuation">{</span>index<span class="token punctuation">}</span>
+            pageNo<span class="token operator">=</span><span class="token punctuation">{</span>index <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">}</span>
+            pageTotal<span class="token operator">=</span><span class="token punctuation">{</span>printPages<span class="token punctuation">.</span>length<span class="token punctuation">}</span>
+            headerProps<span class="token operator">=</span><span class="token punctuation">{</span>headerProps<span class="token punctuation">}</span>
+            doms<span class="token operator">=</span><span class="token punctuation">{</span>page<span class="token punctuation">}</span>
+          <span class="token operator">/</span><span class="token operator">&gt;</span>
+        <span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">}</span>
+      <span class="token operator">&lt;</span><span class="token operator">/</span>div<span class="token operator">&gt;</span>
+    <span class="token operator">&lt;</span><span class="token operator">/</span><span class="token operator">&gt;</span>
+  <span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+</code></pre></div><h2 id="打印不展示网址"><a href="#打印不展示网址" class="header-anchor">#</a> 打印不展示网址</h2> <p>在打印布局时默认会展示浏览器的网址信息，我们需要用打印内容覆盖整个纸张大小就可以做到不展示网址信息。
+我是这样实现的：</p> <div class="language-css extra-class"><pre class="language-css"><code><span class="token comment">/* 规定打印内容和纸张大小固定为 A4 纸大小 */</span>
+<span class="token atrule"><span class="token rule">@page</span></span> <span class="token punctuation">{</span> <span class="token property">margin</span><span class="token punctuation">:</span> 0<span class="token punctuation">;</span> <span class="token property">size</span><span class="token punctuation">:</span> A4<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token comment">/* 在打印时不要对颜色进行任何调整，以确保打印结果与屏幕上的颜色一致 */</span>
+<span class="token selector">body</span> <span class="token punctuation">{</span> <span class="token property">-webkit-print-color-adjust</span><span class="token punctuation">:</span> exact<span class="token punctuation">;</span> <span class="token punctuation">}</span>
+<span class="token comment">/* 打印的每页样式 */</span>
+<span class="token selector">.print-page</span> <span class="token punctuation">{</span>
+    <span class="token property">box-sizing</span><span class="token punctuation">:</span> border-box<span class="token punctuation">;</span>
+    <span class="token property">word-break</span><span class="token punctuation">:</span> break-all<span class="token punctuation">;</span>
+    <span class="token comment">/* 需要分页 */</span>
+    <span class="token property">page-break-before</span><span class="token punctuation">:</span> always<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+</code></pre></div><h2 id="缺点"><a href="#缺点" class="header-anchor">#</a> 缺点</h2> <ol><li>由于是通过<code>clone</code>节点实现分页，所以如果<code>children</code>中有<code>ref</code>，则会导致<code>ref</code>失效。</li> <li>dom内容的高度计算是只计算了外层的节点，并且只对外层进行了分页，这需要传入的<code>children</code>都是一行行布局的</li> <li>使用如<code>ul</code>、<code>table</code>等标签时，需要自己实现分页（都在同一页），否则会导致分页不准确。</li> <li><code>useEffect</code>去监听了<code>children</code>的改变，但是并未用<code>children</code>的内容</li></ol> <h2 id="总结"><a href="#总结" class="header-anchor">#</a> 总结</h2> <p>上述代码中我用<code>useEffect</code>去监听了<code>children</code>的改变，首先将原有内容渲染至页面之外（pos: fixed）,
+然后根据实际渲染的高度减去页面头部和尾部分的高度，进行页面拆分，最后将每页的<code>dom</code>内容<code>clone</code>到对应的<code>Page</code>中，从而实现自动分页效果。</p> <p>对于打印不展示网址的问题，通过固定打印的<code>size</code>实现对网址内容的覆盖。</p></div> <footer class="page-edit"><!----> <div class="last-updated"><span class="prefix">Last Updated:</span> <span class="time">8/18/2023, 7:53:59 AM</span></div></footer> <div class="page-nav"><p class="inner"><span class="prev">
+      ←
+      <a href="/jkcs-blog/js/utils.html" class="prev">
+        一些好用的js代码
+      </a></span> <span class="next"><a href="/jkcs-blog/about.html">
+        关于此博客
+      </a>
+      →
+    </span></p></div> </main></div><div class="global-ui"></div></div>
+    <script src="/jkcs-blog/assets/js/app.ee031cb1.js" defer></script><script src="/jkcs-blog/assets/js/2.15dacd45.js" defer></script><script src="/jkcs-blog/assets/js/14.25db5a46.js" defer></script>
+  </body>
+</html>
