@@ -28,6 +28,7 @@ module.exports = {
           children: [
             '/js/utils',
             '/js/react-to-print',
+            'js/amis-analyze',
           ]
         },
         ['/about', '关于此博客']
