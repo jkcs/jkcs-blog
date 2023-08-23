@@ -28,7 +28,8 @@ module.exports = {
           children: [
             '/js/utils',
             '/js/react-to-print',
-            'js/amis-analyze',
+            '/js/amis-analyze',
+            '/js/yarn-jsdom-node-version-error',
           ]
         },
         ['/about', '关于此博客']
